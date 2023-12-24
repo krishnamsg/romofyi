@@ -29,5 +29,18 @@ pipeline {
                 sh 'mvn clean install'
             }
         }
+        stage ("Build & Push docker Image") {
+            steps {
+                script {
+                    docker.withRegistory('',DOCKER_PASS){
+                        docker_image = docker.build "${IMAGE_NAME}"
+                    }
+                    docker.withRegistory('',DOCKER_PASS){
+                        docker.image.push("${IMAGE_TAG}")
+                        docker.image.push('latest')
+                    }
+                }
+            }
+        }
       }
 }
