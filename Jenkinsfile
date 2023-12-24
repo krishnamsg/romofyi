@@ -19,6 +19,11 @@ pipeline {
                 cleanWs()
             }
         }
+        stage ('Checkout from SCM') {
+            steps {
+                git branch: 'dev', credentialsId: 'github', url: 'https://github.com/krishnamsg/romofyi.git'
+            }
+        }
         stage ('Build Application') {
             steps {
                 sh 'mvn clean install'
